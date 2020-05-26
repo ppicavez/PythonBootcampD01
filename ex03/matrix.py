@@ -90,22 +90,48 @@ class Matrix:
             return f"ERROR! Cannot sub matrix and {name}, only add matrix"
 
     def __mul__(self, other):
-        if isinstance(other, Vector):
-            if self.size == other.size:
-                return sum([a * b for a, b in zip(self.values, other.values)])
+        if isinstance(other, int):
+            new = Matrix(self.shape)
+            num_list = new.shape[0]
+            num_elem = new.shape[1]
+            new.data = []
+            for i in range(num_list):
+                col = []
+                for j in range(num_elem):
+                    col.append(self.data[i][j] / int(other))
+                new.data.append(col)
+            return new
+        elif isinstance(other, Matrix):
+            self_num_list = self.shape[0]
+            self_num_elem = self.shape[1]
+            other_num_list = other.shape[0]
+            other_num_elem = other.shape[1]
+
+            if self_num_list == other_num_elem:
+                new = Matrix(self.shape[0], other.shape[1])
+
+                new.data = []
+                for i in range(self_num_list):
+                    col = []
+                    for j in range(other_num_elem):
+                        product = 0
+                        #We have to make dot product between row[i] and col [j]
+                        for k in range(self_num_list):
+                            product = product + self.data[i][k] * other[k][j]
+                        col.append(product)
+                    new.data.append(col)
+                return new
             else:
-                return "ERROR! impossible to multiply \
-                        vectors with different sizes"
-        try:
-            return [float(other) * x for x in self.values]
-        except (TypeError, ValueError):
+                # Line for self must be equal col for other
+                return f"ERROR! Dimension of the 2 matrix are not compatibles"
+        else:
+            # Only scalar or matrix could  multiply matrix
             name = other.__class__.__name__
-            return f"ERROR! impossible to multiply vector \
-                     on {name}, only on scalars"
+            return f"ERROR! Cannot multiply matrix and {name}"
 
     def __truediv__(self, other):
         if isinstance(other, int):
-            if int(other) != 0 :
+            if int(other) != 0:
                 new = Matrix(self.shape)
                 num_list = new.shape[0]
                 num_elem = new.shape[1]
@@ -122,7 +148,7 @@ class Matrix:
             # Only scalar could be div  a matrix
             name = other.__class__.__name__
             return f"ERROR! Cannot div matrix and {name}"
-        
+
     __rsub__ = __sub__
     __radd__ = __add__
     __rmul__ = __mul__
