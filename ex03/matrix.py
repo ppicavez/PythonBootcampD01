@@ -47,18 +47,27 @@ class Matrix:
         return f"{self.__class__}, {self.__dict__}"
 
     def __str__(self):
-        return f"matrix {self.data}"
+        return f" shape {self.shape}\n matrix {self.data}"
 
     def __add__(self, other):
-        if isinstance(other, Vector):
-            if self.size == other.size:
-                return [a + b for a, b in zip(self.values, other.values)]
+        if isinstance(other, Matrix):
+            if self.shape == other.shape:
+                new = Matrix(self.shape)
+                num_list = new.shape[0]
+                num_elem = new.shape[1]
+                new.data = []
+                for i in range(num_list):
+                    col = []
+                    for j in range(num_elem):
+                        col.append(self.data[i][j] + other.data[i][j])
+                    new.data.append(col)
+                return new
             else:
-                return "ERROR! impossible to add vectors with different sizes"
+                return "ERROR! impossible to add matrix with different shape"
         else:
-            # Only vector could be added with a vector
+            # Only matrix could be added with a matrix
             name = other.__class__.__name__
-            return f"ERROR! Cannot add vector and {name}, only add vectors"
+            return f"ERROR! Cannot add matrix and {name}, only add matrix"
 
     def __sub__(self, other):
         if isinstance(other, Vector):
