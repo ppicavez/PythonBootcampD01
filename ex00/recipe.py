@@ -8,7 +8,7 @@ class Recipe:
             print("Name should be not empty")
             return
         if not isinstance(cooking_lvl, int):
-            print("Cooking level should an unsigned integer")
+            print("Cooking level should be an unsigned integer")
             return
         else:
             cooking_lvl = int(cooking_lvl)
