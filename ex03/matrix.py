@@ -70,16 +70,24 @@ class Matrix:
             return f"ERROR! Cannot add matrix and {name}, only add matrix"
 
     def __sub__(self, other):
-        if isinstance(other, Vector):
-            if self.size == other.size:
-                return [a - b for a, b in zip(self.values, other.values)]
+        if isinstance(other, Matrix):
+            if self.shape == other.shape:
+                new = Matrix(self.shape)
+                num_list = new.shape[0]
+                num_elem = new.shape[1]
+                new.data = []
+                for i in range(num_list):
+                    col = []
+                    for j in range(num_elem):
+                        col.append(self.data[i][j] - other.data[i][j])
+                    new.data.append(col)
+                return new
             else:
-                return "ERROR! impossible to subtract vectors\
-                        with different sizes"
+                return "ERROR! impossible to sub matrix with different shape"
         else:
+            # Only matrix could be sub with a matrix
             name = other.__class__.__name__
-            return f"ERROR! Cannot subtract vector with {name},\
-                only with vectors"
+            return f"ERROR! Cannot sub matrix and {name}, only add matrix"
 
     def __mul__(self, other):
         if isinstance(other, Vector):
@@ -96,14 +104,25 @@ class Matrix:
                      on {name}, only on scalars"
 
     def __truediv__(self, other):
-        try:
-            return [x / float(other) for x in self.values]
-
-        except (TypeError, ValueError):
+        if isinstance(other, int):
+            if int(other) != 0 :
+                new = Matrix(self.shape)
+                num_list = new.shape[0]
+                num_elem = new.shape[1]
+                new.data = []
+                for i in range(num_list):
+                    col = []
+                    for j in range(num_elem):
+                        col.append(self.data[i][j] / int(other))
+                    new.data.append(col)
+                return new
+            else:
+                return "ERROR! impossible to div matrix with 0"
+        else:
+            # Only scalar could be div  a matrix
             name = other.__class__.__name__
-            return f"ERROR! impossible to divide vector \
-                     on {name}, only on scalars"
-
+            return f"ERROR! Cannot div matrix and {name}"
+        
     __rsub__ = __sub__
     __radd__ = __add__
     __rmul__ = __mul__
