@@ -26,6 +26,8 @@ recipe_with_error = Recipe(" Fried Liver ", 1, 50, ["Liver", "Chessboard"],
 good_recipe1 = Recipe("Lyonnaise salad", 1, 5,
                       ["tomatoes", "eggs", "oil", "ham", "salt", "pepper"],
                       "starter", "The simplest one")
+print("______________________________________________________________________")
+
 print(good_recipe1)
 good_recipe2 = Recipe("Fish and ships", 1, 60, ["Fish", "potatoes"],
                       "lunch", "")
@@ -55,10 +57,17 @@ cookbook.add_recipe(good_recipe6)
 cookbook.add_recipe(good_recipe7)
 cookbook.add_recipe(good_recipe8)
 cookbook.add_recipe(good_recipe9)
-
+print("______________________________________________________________________")
 print(cookbook.get_recipes_by_types("as"))
+print("______________________________________________________________________")
 print(cookbook.get_recipes_by_types("dessert"))
+print("______________________________________________________________________")
 print(cookbook.get_recipes_by_types("starter"))
+print("______________________________________________________________________")
+print(cookbook.get_recipes_by_types("lunch"))
+print("______________________________________________________________________")
 
 print(cookbook.get_recipe_by_name("cNotGood"))
+print("______________________________________________________________________")
 print(cookbook.get_recipe_by_name("Apple pie"))
+print("_____________________________________END______________________________")
