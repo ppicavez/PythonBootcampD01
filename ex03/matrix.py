@@ -98,7 +98,7 @@ class Matrix:
             for i in range(num_list):
                 col = []
                 for j in range(num_elem):
-                    col.append(self.data[i][j] / int(other))
+                    col.append(self.data[i][j] * int(other))
                 new.data.append(col)
             return new
         elif isinstance(other, Matrix):
@@ -106,19 +106,24 @@ class Matrix:
             self_num_elem = self.shape[1]
             other_num_list = other.shape[0]
             other_num_elem = other.shape[1]
+            my_tuple = []
+            my_tuple.append(self_num_list)
+            my_tuple.append(other_num_elem)
+            my_tuple = tuple(my_tuple)
 
-            if self_num_list == other_num_elem:
-                new = Matrix(self.shape[0], other.shape[1])
+            if self_num_elem == other_num_list:
+                new = Matrix(my_tuple)
 
                 new.data = []
                 for i in range(self_num_list):
                     col = []
                     for j in range(other_num_elem):
-                        product = 0
-                        #We have to make dot product between row[i] and col [j]
+                        p = 0
+                        # We have to make dot product
+                        # between row[i] and col [j]
                         for k in range(self_num_list):
-                            product = product + self.data[i][k] * other[k][j]
-                        col.append(product)
+                            p = p + self.data[i][k] * other.data[k][j]
+                        col.append(p)
                     new.data.append(col)
                 return new
             else:
